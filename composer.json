@@ -1,0 +1,21 @@
+{
+    "name": "wtsergo/misc",
+    "description": "Various helpers",
+    "require": {
+        "php": "^8.1",
+        "amphp/http-client-psr7": "^1.1"
+    },
+    "minimum-stability": "dev",
+    "version": "1.0.0",
+    "license": [
+        "MIT"
+    ],
+    "autoload": {
+        "files": [
+            "src/functions.php"
+        ],
+        "psr-4": {
+            "Wtsergo\\Misc\\": "src/"
+        }
+    }
+}
