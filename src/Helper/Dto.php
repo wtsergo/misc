@@ -30,8 +30,8 @@ trait Dto
     {
         foreach (self::parameters(static::class) as $parameter) {
             $__name = $parameter->getName();
-            if (!$this->isUndefined($__name)) {
-                $args[$__name] ??= $this->{$__name};
+            if (!$this->isUndefined($__name) && property_exists($this, $__name)) {
+                $args[$__name] ??= $this->{$__name}??null;
             }
         };
         return $clone ? new static(...$args) : static::fromArray($args);
@@ -43,6 +43,7 @@ trait Dto
         foreach (self::parameters(static::class) as $parameter) {
             $__name = $parameter->getName();
             if ($this->isUndefined($__name) && $skipUndefined) continue;
+            if (!property_exists($this, $__name)) continue;
             $array[$__name] = $this->{$__name};
         }
         return $array;
@@ -53,6 +54,7 @@ trait Dto
         $array = [];
         foreach (self::parameters(static::class) as $parameter) {
             $__name = $parameter->getName();
+            if (!property_exists($this, $__name)) continue;
             if ($this->isUndefined($__name)) continue;
             $value = $this->{$__name};
             if (is_object($value)) {
