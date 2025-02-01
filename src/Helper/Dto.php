@@ -122,12 +122,29 @@ trait Dto
         return $dtoMapper;
     }
 
+    public function __sleep(): array
+    {
+        return array_map(
+            fn (\ReflectionParameter $parameter) => $parameter->name,
+            self::parameters(static::class)
+        );
+    }
+
+    private static function reflector($class)
+    {
+        static $reflectorCache = [];
+        if (!isset($reflectorCache[$class])) {
+            $reflectorCache[$class] = new \ReflectionClass($class);
+        }
+        return $reflectorCache[$class];
+    }
+
     private static function parameters($class)
     {
         /** @var array<class-string, \ReflectionParameter[]> */
         static $ctorParametersCache = [];
         if (!isset($ctorParametersCache[$class])) {
-            $ctorParametersCache[$class] = (new \ReflectionClass($class))
+            $ctorParametersCache[$class] = self::reflector($class)
                 ->getConstructor()->getParameters();
         }
         return $ctorParametersCache[$class];
