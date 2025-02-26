@@ -31,7 +31,9 @@ trait Dto
         foreach (self::parameters(static::class) as $parameter) {
             $__name = $parameter->getName();
             if (!$this->isUndefined($__name) && property_exists($this, $__name)) {
-                $args[$__name] ??= $this->{$__name}??null;
+                if (!array_key_exists($__name, $args)) {
+                    $args[$__name] = $this->{$__name}??null;
+                }
             }
         };
         return $clone ? new static(...$args) : static::fromArray($args);
