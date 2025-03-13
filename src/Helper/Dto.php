@@ -2,10 +2,6 @@
 
 namespace Wtsergo\Misc\Helper;
 
-use CuyZ\Valinor\Mapper\TreeMapper;
-use CuyZ\Valinor\MapperBuilder;
-use Unirgy\Core\Dto\ValidationException;
-
 trait Dto
 {
     /**
@@ -113,10 +109,10 @@ trait Dto
         return static::fromArray($args);
     }
 
-    public static function dtoMapper(): TreeMapper
+    public static function dtoMapper()
     {
         static $dtoMapper = null;
-        $dtoMapper ??= (new MapperBuilder)
+        $dtoMapper ??= (new \CuyZ\Valinor\MapperBuilder)
             ->enableFlexibleCasting()
             ->allowPermissiveTypes()
             ->allowSuperfluousKeys()
