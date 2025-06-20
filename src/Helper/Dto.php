@@ -143,7 +143,7 @@ trait Dto
         static $ctorParametersCache = [];
         if (!isset($ctorParametersCache[$class])) {
             $ctorParametersCache[$class] = self::reflector($class)
-                ->getConstructor()->getParameters();
+                ->getConstructor()?->getParameters() ?? [];
         }
         return $ctorParametersCache[$class];
     }
