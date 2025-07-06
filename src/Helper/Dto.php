@@ -4,6 +4,8 @@ namespace Wtsergo\Misc\Helper;
 
 trait Dto
 {
+    use DtoMapperTrait;
+
     /**
      * @return class-string
      */
@@ -96,7 +98,7 @@ trait Dto
                 $undefined[] = $parameter->getName();
             }
         };
-        $dto = static::dtoMapper()->map(
+        $dto = static::dtoMapper(true, true, true)->map(
             static::class,
             $array
         );
@@ -107,17 +109,6 @@ trait Dto
     public static function fromArgs(...$args): static
     {
         return static::fromArray($args);
-    }
-
-    public static function dtoMapper()
-    {
-        static $dtoMapper = null;
-        $dtoMapper ??= (new \CuyZ\Valinor\MapperBuilder)
-            ->enableFlexibleCasting()
-            ->allowPermissiveTypes()
-            ->allowSuperfluousKeys()
-            ->mapper();
-        return $dtoMapper;
     }
 
     public function __sleep(): array
