@@ -16,13 +16,24 @@ trait DtoMapperTrait
         bool $enableFlexibleCasting = true,
         bool $allowPermissiveTypes = true,
         bool $allowSuperfluousKeys = false,
+        bool $allowUndefinedValues = false,
+        bool $allowScalarValueCasting = false,
     ): TreeMapper {
-        $key = sprintf('%d-%d-%d', $enableFlexibleCasting, $allowPermissiveTypes, $allowSuperfluousKeys);
+        $key = sprintf(
+            '%d-%d-%d-%d-%d',
+            $enableFlexibleCasting,
+            $allowPermissiveTypes,
+            $allowSuperfluousKeys,
+            $allowUndefinedValues,
+            $allowScalarValueCasting
+        );
         static $requestMapper = [];
         return $requestMapper[$key] ??= static::buildDtoMapper(
             $enableFlexibleCasting,
             $allowPermissiveTypes,
             $allowSuperfluousKeys,
+            $allowUndefinedValues,
+            $allowScalarValueCasting
         );
     }
 
@@ -30,11 +41,15 @@ trait DtoMapperTrait
         bool $enableFlexibleCasting = true,
         bool $allowPermissiveTypes = true,
         bool $allowSuperfluousKeys = false,
+        bool $allowUndefinedValues = false,
+        bool $allowScalarValueCasting = false,
     ): TreeMapper {
         $mapper = (new MapperBuilder);
         $enableFlexibleCasting && ($mapper = $mapper->enableFlexibleCasting());
         $allowPermissiveTypes && ($mapper = $mapper->allowPermissiveTypes());
         $allowSuperfluousKeys && ($mapper = $mapper->allowSuperfluousKeys());
+        $allowUndefinedValues && ($mapper = $mapper->allowUndefinedValues());
+        $allowScalarValueCasting && ($mapper = $mapper->allowScalarValueCasting());
         return $mapper->mapper();
     }
 

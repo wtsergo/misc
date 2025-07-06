@@ -98,7 +98,7 @@ trait Dto
                 $undefined[] = $parameter->getName();
             }
         };
-        $dto = static::dtoMapper(true, true, true)->map(
+        $dto = static::dtoMapper(allowSuperfluousKeys: true)->map(
             static::class,
             $array
         );
