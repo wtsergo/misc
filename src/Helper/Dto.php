@@ -2,10 +2,10 @@
 
 namespace Wtsergo\Misc\Helper;
 
+use function Wtsergo\Misc\dtoMapper;
+
 trait Dto
 {
-    use DtoMapperTrait;
-
     /**
      * @return class-string
      */
@@ -47,6 +47,23 @@ trait Dto
             $array[$__name] = $this->{$__name};
         }
         return $array;
+    }
+
+    public static function tuneDbRow(array $dbRow): array
+    {
+        return $dbRow;
+    }
+
+    public function toDbRow(): array
+    {
+        $dbRow = $this->toArray();
+        foreach ($dbRow as $key => &$value) {
+            if (is_array($value)) {
+                $value = json_encode($value, JSON_THROW_ON_ERROR);
+            }
+        }
+        unset($value);
+        return $dbRow;
     }
 
     public function toArray(bool $skipUnsupported = false): array
@@ -98,7 +115,7 @@ trait Dto
                 $undefined[] = $parameter->getName();
             }
         };
-        $dto = static::dtoMapper(allowSuperfluousKeys: true)->map(
+        $dto = dtoMapper(allowSuperfluousKeys: true)->map(
             static::class,
             $array
         );
