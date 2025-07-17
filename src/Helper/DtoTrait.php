@@ -4,7 +4,7 @@ namespace Wtsergo\Misc\Helper;
 
 use function Wtsergo\Misc\dtoMapper;
 
-trait Dto
+trait DtoTrait
 {
     /**
      * @return class-string
